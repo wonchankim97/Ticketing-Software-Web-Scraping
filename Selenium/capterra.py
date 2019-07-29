@@ -10,9 +10,12 @@ prefs = {'profile.managed_default_content_settings.images':2}
 chromeOptions.add_experimental_option("prefs", prefs)
 driver = webdriver.Chrome(chrome_options=chromeOptions)
 
-driver = webdriver.Chrome()
+# driver = webdriver.Chrome()
 
-driver.get("https://www.capterra.com/ticketing-software/?utf8=%E2%9C%93&users%5B6%5D=64&commit=Apply+Filters&sort_options=Most+Reviews")
+driver.get("https://www.capterra.com/ticketing-software/")
+
+sort_button = driver.find_element_by_xpath('//*[@id="sort_options_select"]/option[3]')
+sort_button.click()
 
 
 driver.quit()
