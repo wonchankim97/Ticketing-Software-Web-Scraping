@@ -1,7 +1,6 @@
 from selenium import webdriver
-from selenium.webdriver.common.by import By
+# from selenium.webdriver.common.by import By
 import csv
-import re
 
 chromeOptions = webdriver.ChromeOptions()
 prefs = {'profile.managed_default_content_settings.images':2}
