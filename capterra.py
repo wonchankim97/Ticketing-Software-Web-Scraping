@@ -14,7 +14,7 @@ driver = webdriver.Chrome(chrome_options=chromeOptions)
 
 driver.get("https://www.capterra.com/ticketing-software/")
 
-sort_button = driver.find_element_by_xpath('//*[@id="sort_options_select"]/option[3]')
+sort_button = driver.find_element_by_xpath('//*[@id="sort_options_select"]/option[3]')#.get_attribute()
 sort_button.click()
 
 # csv_file = open('reviews.csv', 'w', encoding='utf-8', newline='')
@@ -27,6 +27,6 @@ sort_button.click()
 
 companies = driver.find_elements_by_xpath('//div[@class="card  listing"]')
 for company in companies[:30]:
-    company.find_element_by_xpath('.//*/a[@class="reviews-count milli"]').get_attribute('href')
+    print(company.find_element_by_xpath('.//*/a[@class="reviews-count milli"]').get_attribute('href'))
 
 driver.quit()
