@@ -1,7 +1,5 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 import csv
 import re
 
@@ -17,8 +15,8 @@ driver.get("https://www.capterra.com/ticketing-software/")
 sort_button = driver.find_element_by_xpath('//*[@id="sort_options_select"]/option[3]')#.get_attribute()
 sort_button.click()
 
-# csv_file = open('reviews.csv', 'w', encoding='utf-8', newline='')
-# writer = csv.writer(csv_file)
+csv_file = open('urls.csv', 'w', encoding='utf-8', newline='')
+writer = csv.writer(csv_file)
 
 # writer.writerow(['title', 'text', 'username', 'date_published', 'rating'])
 
@@ -27,6 +25,7 @@ sort_button.click()
 
 companies = driver.find_elements_by_xpath('//div[@class="card  listing"]')
 for company in companies[:30]:
-    print(company.find_element_by_xpath('.//*/a[@class="reviews-count milli"]').get_attribute('href'))
+    links = company.find_element_by_xpath('.//*/a[@class="reviews-count milli"]').get_attribute('href')
+    writer.writerow([links])
 
 driver.quit()
