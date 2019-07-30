@@ -15,7 +15,7 @@ with open('urls.csv', 'r') as f:
         urls.append(line)
 
 # loop through each url and scrape
-for url in urls[29]:
+for url in urls[29:30]:
     # do not render images
     chromeOptions = webdriver.ChromeOptions()
     prefs = {'profile.managed_default_content_settings.images':2}
@@ -33,10 +33,10 @@ for url in urls[29]:
         print('Click Error: ', e)
     
     # names found by following this path
-    names = driver.find_elements_by_xpath('//div[@class="epsilon  weight-bold  inline-block"]').text
+    names = driver.find_elements_by_xpath('//div[@class="epsilon  weight-bold  inline-block"]')
 
     for name in names:
-        print(name)
+        print(name.text)
     
     # make a dictionary that will eventually be outputted
     reviews_dict = {}
