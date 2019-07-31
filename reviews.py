@@ -45,14 +45,14 @@ for url in urls[23:24]:
     usages = driver.find_elements_by_xpath('//div[@class="reviewer-details"]/div[5]')
     paid_statuses = driver.find_elements_by_xpath('//span[@class="help-tooltip text-left incentive"]')
         #.get_attribute('data-incentive-code') when looping through
-    # sources = driver.find_elements_by_xpath('//div[@]')
+    sources = driver.find_elements_by_xpath('//div[@class="reviewer-details"]/div[7]')
 
     # overalls = driver.find_elements_by_xpath('//span[@class="overall-rating"]/span')
 
 
 
-    for paid_status in paid_statuses:
-        print(paid_status.get_attribute("data-incentive-code"))
+    for source in sources:
+        print(source.text)
     print(len(names))
     
     # make a dictionary that will eventually be outputted
