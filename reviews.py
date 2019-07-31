@@ -15,7 +15,7 @@ with open('urls.csv', 'r') as f:
         urls.append(line)
 
 # loop through each url and scrape
-for url in urls[10:11]:
+for url in urls[23:24]:
     # do not render images
     chromeOptions = webdriver.ChromeOptions()
     prefs = {'profile.managed_default_content_settings.images':2}
@@ -37,11 +37,21 @@ for url in urls[10:11]:
             print('Click Error: ', e)
             break
     
-    # names found by following this path
+    # categories found by following paths
+    titles = driver.find_elements_by_xpath('//h3[@class="delta  weight-bold  half-margin-bottom"]/q')
     names = driver.find_elements_by_xpath('//div[@class="epsilon  weight-bold  inline-block"]')
+    positions = driver.find_elements_by_xpath('//div[@class="opacity-threequarters"]')
+    industries = driver.find_elements_by_xpath('//div[@class="italic  opacity-threequarters"]')
+    # usages = driver.find_elements_by_xpath('//div[@class="reviewer-details"]/')
+    # paid_statuses = driver.find_elements_by_xpath('//div[@class="help-tooltip text-left incentive"]').get_attribute('data-incentive-code')
+    # sources = driver.find_elements_by_xpath('//div[@]')
 
-    for name in names:
-        print(name.text)
+    # overalls = driver.find_elements_by_xpath('//span[@class="overall-rating"]/span')
+
+
+
+    for industry in industries:
+        print(industry.text)
     print(len(names))
     
     # make a dictionary that will eventually be outputted
