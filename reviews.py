@@ -42,16 +42,17 @@ for url in urls[23:24]:
     names = driver.find_elements_by_xpath('//div[@class="epsilon  weight-bold  inline-block"]')
     positions = driver.find_elements_by_xpath('//div[@class="opacity-threequarters"]')
     industries = driver.find_elements_by_xpath('//div[@class="italic  opacity-threequarters"]')
-    # usages = driver.find_elements_by_xpath('//div[@class="reviewer-details"]/')
-    # paid_statuses = driver.find_elements_by_xpath('//div[@class="help-tooltip text-left incentive"]').get_attribute('data-incentive-code')
+    usages = driver.find_elements_by_xpath('//div[@class="reviewer-details"]/div[5]')
+    paid_statuses = driver.find_elements_by_xpath('//span[@class="help-tooltip text-left incentive"]')
+        #.get_attribute('data-incentive-code') when looping through
     # sources = driver.find_elements_by_xpath('//div[@]')
 
     # overalls = driver.find_elements_by_xpath('//span[@class="overall-rating"]/span')
 
 
 
-    for industry in industries:
-        print(industry.text)
+    for paid_status in paid_statuses:
+        print(paid_status.get_attribute("data-incentive-code"))
     print(len(names))
     
     # make a dictionary that will eventually be outputted
