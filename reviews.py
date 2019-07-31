@@ -2,7 +2,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver import ActionChains
 from time import sleep
 import csv
 import re
@@ -16,7 +15,7 @@ with open('urls.csv', 'r') as f:
         urls.append(line)
 
 # loop through each url and scrape
-for url in urls[23:24]:
+for url in urls[10:11]:
     # do not render images
     chromeOptions = webdriver.ChromeOptions()
     prefs = {'profile.managed_default_content_settings.images':2}
@@ -43,6 +42,7 @@ for url in urls[23:24]:
 
     for name in names:
         print(name.text)
+    print(len(names))
     
     # make a dictionary that will eventually be outputted
     reviews_dict = {}
