@@ -47,13 +47,13 @@ for url in urls[23:24]:
         #.get_attribute('data-incentive-code') when looping through
     sources = driver.find_elements_by_xpath('//div[@class="reviewer-details"]/div[7]')
 
-    # overalls = driver.find_elements_by_xpath('//span[@class="overall-rating"]/span')
+    overalls = driver.find_elements_by_xpath('//span[@class="overall-rating"]/span')
+    eases = driver.find_elements_by_xpath('//div[@class="cell  three-tenths  reviews-col columns4  palm-one-half"]/div[@class="base-margin-bottom"][1]//span[@class="milli  rating-decimal"]/span[1]')
+    # features = 
+    # supports = driver.find_elements_by_xpath('//div[class="cell  three-twelfths  reviews-col columns4 lap-three-twelfths  palm-one-half"]/')
 
-
-
-    for source in sources:
-        print(source.text)
-    print(len(names))
+    for ease in eases:
+        print(ease.text)
     
     # make a dictionary that will eventually be outputted
     reviews_dict = {}
