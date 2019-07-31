@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver import ActionChains
+from time import sleep
 import csv
 import re
 
@@ -15,22 +16,27 @@ with open('urls.csv', 'r') as f:
         urls.append(line)
 
 # loop through each url and scrape
-for url in urls[29:30]:
+for url in urls[23:24]:
     # do not render images
     chromeOptions = webdriver.ChromeOptions()
     prefs = {'profile.managed_default_content_settings.images':2}
-    chromeOptions.add_experimental_option("prefs", prefs)
+    chromeOptions.add_experimental_option("prefs", prefs) 
     driver = webdriver.Chrome(chrome_options=chromeOptions)
 
     # go on the specified url of the for loop
     driver.get(url)
 
     # try to click on the load more button after scrolling all the way down continously until you cannot
-    try:
-        btn = driver.find_element_by_xpath('//a[@class="no-underline  show-more-reviews"]')
-        ActionChains(driver).move_to_element(btn).perform()
-    except Exception as e:
-        print('Click Error: ', e)
+    while True:
+        driver.execute_script("window.scrollTo(0,document.body.scrollHeight);")
+        try:
+            sleep(1.5)
+            btn = driver.find_element_by_xpath('//a[@class="no-underline  show-more-reviews"]')
+            btn.click()
+            # ActionChains(driver).move_to_element(btn).click(btn).perform()
+        except Exception as e:
+            print('Click Error: ', e)
+            break
     
     # names found by following this path
     names = driver.find_elements_by_xpath('//div[@class="epsilon  weight-bold  inline-block"]')
