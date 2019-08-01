@@ -14,6 +14,13 @@ with open('urls.csv', 'r') as f:
     for line in lines:
         urls.append(line)
 
+csv_file = open('reviews.csv', 'w', encoding='utf-8', newline='')
+writer = csv.writer(csv_file)
+
+writer.writerow(['title', 'name', 'position', 'industry', 'usage', 'paid_status', 'source', 'date',
+                'overall', 'ease', 'feature', 'support', 'value', 'recommend', 'comment', 'pros',
+                'cons'])
+
 # loop through each url and scrape
 for url in urls[23:24]:
     # do not render images
@@ -46,17 +53,50 @@ for url in urls[23:24]:
     paid_statuses = driver.find_elements_by_xpath('//span[@class="help-tooltip text-left incentive"]')
         #.get_attribute('data-incentive-code') when looping through
     sources = driver.find_elements_by_xpath('//div[@class="reviewer-details"]/div[7]')
+    dates = driver.find_elements_by_xpath('//div[@class="quarter-margin-bottom  micro  color-gray  weight-normal  text-right  palm-text-left"]')
 
     overalls = driver.find_elements_by_xpath('//span[@class="overall-rating"]/span')
-    eases = driver.find_elements_by_xpath('//div[@class="cell  three-tenths  reviews-col columns4  palm-one-half"]/div[@class="base-margin-bottom"][1]//span[@class="milli  rating-decimal"]/span[1]')
-    # features = 
+    
+    try:
+        eases = driver.find_elements_by_xpath('//div[@class="cell  three-tenths  reviews-col columns4  palm-one-half"]/div[@class="base-margin-bottom"][1]//span[@class="milli  rating-decimal"]/span[1]')
+    except:
+        continue
+    features = driver.find_elements_by_xpath('//div[@class="cell  three-tenths  reviews-col columns4  palm-one-half"]/div[@class="base-margin-bottom"][2]//span[@class="milli  rating-decimal"]/span[1]')
+    # currently does not support when only one specific feature rated
     # supports = driver.find_elements_by_xpath('//div[class="cell  three-twelfths  reviews-col columns4 lap-three-twelfths  palm-one-half"]/')
+
+    recommendations = driver.find_elements_by_xpath('//img[@class="gauge-svg-image"]')
+        # .get_attribute('alt')
 
     for ease in eases:
         print(ease.text)
-    
+    print(len(eases))
+    for feature in features:
+        print(feature.text)
+    print(len(features))
+
     # make a dictionary that will eventually be outputted
-    reviews_dict = {}
+    # reviews_dict = {}
+
+    # review_dict['title'] = title
+    # review_dict['name'] = name
+    # review_dict['position'] = position
+    # review_dict['industry'] = industry
+    # review_dict['usage'] = usage
+    # review_dict['paid_status'] = paid_status
+    # review_dict['source'] = source
+    # review_dict['date'] = date
+    # review_dict['overall'] = overall
+    # review_dict['ease'] = ease
+    # review_dict['feature'] = feature
+    # review_dict['support'] = support
+    # review_dict['value'] = value
+    # review_dict['recommend'] = recommend
+    # review_dict['comment'] = comment
+    # review_dict['pros'] = pros
+    # review_dict['cons'] = cons
+
+    # writer.writerow(review_dict.values())
 
     # csv_file = open('reviews.csv', 'w', encoding='utf-8', newline='')
     # writer = csv.writer(csv_file)
