@@ -19,7 +19,31 @@ writer = csv.writer(csv_file)
 
 writer.writerow(['title', 'name', 'position', 'industry', 'usage', 'paid_status', 'source', 'date',
                 'overall', 'ease', 'feature', 'support', 'value', 'recommend', 'comment', 'pros',
-                'cons'])
+                'cons', 'overall_review', 'rec_others'])
+
+# function to differentiate the different review parts and mutate the review dict being passed
+def check_element(dict, driver):
+    element = re.search('.+?(?=:)', driver.find_element_by_xpath('./b').text).group(0)
+    if element == 'Comments': # store the value
+        dict['comment'] = driver.text
+    else: # store value as empty string
+        dict['comment'] = ""
+    if element == 'Pros': # store the value
+        dict['pros'] = driver.text
+    else: # store value as empty string
+        dict['pros'] = ""
+    if element == 'Cons': # store the value
+        dict['cons'] = driver.text
+    else: # store value as empty string
+        dict['cons'] = ""
+    if element == 'Overall': # store the value
+        dict['overall_review'] = driver.text
+    else: # store value as empty string
+        dict['overall_review'] = ""
+    if element == 'Recommendations to other buyers': # store the value
+        dict['rec_others'] = driver.text
+    else: # store value as empty string
+        dict['rec_others'] = ""
 
 # loop through each url and scrape,
 for url in urls[23:24]:
@@ -31,6 +55,10 @@ for url in urls[23:24]:
 
     # go on the specified url of the for loop
     driver.get(url)
+    # csv_file = open('reviews.csv', 'w', encoding='utf-8', newline='')
+    # writer = csv.writer(csv_file)
+
+    # writer.writerow(['title', 'text', 'username', 'date_published', 'rating'])
 
     # try to click on the load more button after scrolling all the way down continously until you cannot
     while True:
@@ -47,7 +75,7 @@ for url in urls[23:24]:
             break
     
     reviews = driver.find_elements_by_xpath('//div[@class="cell-review"]')
-    for review in reviews:
+    for review in reviews[0:2]:
         # categories found by following paths
         title = review.find_element_by_xpath('.//h3[@class="delta  weight-bold  half-margin-bottom"]/q').text
         name = review.find_element_by_xpath('.//div[@class="epsilon  weight-bold  inline-block"]').text
@@ -66,49 +94,42 @@ for url in urls[23:24]:
         feature = review.find_element_by_xpath('.//span[@class="reviews-stars  rating-features"]/span[@class="milli  rating-decimal"]/span[1]').text
         support = review.find_element_by_xpath('.//span[@class="reviews-stars  rating-customer-service"]/span[@class="milli  rating-decimal"]/span[1]').text
         value = review.find_element_by_xpath('.//div[@class="cell  three-twelfths  reviews-col columns4 lap-three-twelfths  palm-one-half"]/span[@class="reviews-stars  rating-value"]/span[@class="milli  rating-decimal"]/span[1]').text
-        recommendation = review.find_element_by_xpath('.//img[@class="gauge-svg-image"]').get_attribute('alt')
-    
-    # the reviews themselves
-    # for loop to iterate through the p tags and put them in correct element
-    test = driver.find_element_by_xpath('//div[@class="review-comments  color-text"]/p[1]')
-    re.search('//b'.text, 'Comments: ?')
-    if test.find_element_by_xpath('./b') == 'Comments:' or test.find_element_by_xpath('./b') == 'Comments: ':
-        # use regex for the conditional above instead
-        comment = test.text
-    # comments = driver.find_elements_by_xpath('div[@class="review-comments  color-text"]/p[1]')
-    # pros = driver.find_elements_by_xpath('div[@class="review-comments  color-text"]/p[2]')
-    # cons = driver.find_elements_by_xpath('div[@class="review-comments  color-text"]/p[3]')
+        recommend = review.find_element_by_xpath('.//img[@class="gauge-svg-image"]').get_attribute('alt')
 
+        # make a dictionary that will eventually be outputted
+        review_dict = {}
 
-    # make a dictionary that will eventually be outputted
-    # reviews_dict = {}
+        review_dict['title'] = title
+        review_dict['name'] = name
+        review_dict['position'] = position
+        review_dict['industry'] = industry
+        review_dict['usage'] = usage
+        review_dict['paid_status'] = paid_status
+        review_dict['source'] = source
+        review_dict['date'] = date
+        review_dict['overall'] = overall
+        review_dict['ease'] = ease
+        review_dict['feature'] = feature
+        review_dict['support'] = support
+        review_dict['value'] = value
+        review_dict['recommend'] = recommend
 
-    # review_dict['title'] = title
-    # review_dict['name'] = name
-    # review_dict['position'] = position
-    # review_dict['industry'] = industry
-    # review_dict['usage'] = usage
-    # review_dict['paid_status'] = paid_status
-    # review_dict['source'] = source
-    # review_dict['date'] = date
-    # review_dict['overall'] = overall
-    # review_dict['ease'] = ease
-    # review_dict['feature'] = feature
-    # review_dict['support'] = support
-    # review_dict['value'] = value
-    # review_dict['recommend'] = recommend
-    # review_dict['comment'] = comment
-    # review_dict['pros'] = pros
-    # review_dict['cons'] = cons
+        # the reviews themselves
+        review_elements = driver.find_elements_by_xpath('//div[@class="review-comments  color-text"]/p')
+        # for loop to iterate through the p tags and put them in correct element
+        for element in review_elements:
+            # element_category = element.find_element_by_xpath('./b').text
+            check_element(review_dict, element)
 
-    # writer.writerow(review_dict.values())
+        
+        # re.search(test.find_element_by_xpath('//b').text, 'Comments: ?')
+        # if test.find_element_by_xpath('./b') == 'Comments:' or test.find_element_by_xpath('./b') == 'Comments: ':
+        #     # use regex for the conditional above instead
+        #     comment = test.text
+        # comments = driver.find_elements_by_xpath('div[@class="review-comments  color-text"]/p[1]')
+        # pros = driver.find_elements_by_xpath('div[@class="review-comments  color-text"]/p[2]')
+        # cons = driver.find_elements_by_xpath('div[@class="review-comments  color-text"]/p[3]')
 
-    # csv_file = open('reviews.csv', 'w', encoding='utf-8', newline='')
-    # writer = csv.writer(csv_file)
-
-    # writer.writerow(['title', 'text', 'username', 'date_published', 'rating'])
-
-    # wait_button = WebDriverWait(driver, 5)
-    # next_button = wait_button.until(EC.element_to_be_clickable((By.XPATH,'//*[@id="product-114949"]/div/div[2]/div/div[1]/div/div/a[1]')))
+        writer.writerow(review_dict.values())
 
     driver.quit()
