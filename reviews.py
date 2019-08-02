@@ -57,22 +57,25 @@ for url in urls[23:24]:
 
     overalls = driver.find_elements_by_xpath('//span[@class="overall-rating"]/span')
     # these next four are annoying because some people do not do them and the class tags are same
+    # jk, i just didn't look hard enough for the path whoohooo
     eases = driver.find_elements_by_xpath('//span[@class="reviews-stars  rating-ease-of-use"]/span[@class="milli  rating-decimal"]/span[1]')
     features = driver.find_elements_by_xpath('//span[@class="reviews-stars  rating-features"]/span[@class="milli  rating-decimal"]/span[1]')
-    # currently does not support when only one specific feature rated
-    # supports = driver.find_elements_by_xpath('//div[class="cell  three-twelfths  reviews-col columns4 lap-three-twelfths  palm-one-half"]/')
-
+    supports = driver.find_elements_by_xpath('//span[@class="reviews-stars  rating-customer-service"]/span[@class="milli  rating-decimal"]/span[1]')
+    values = driver.find_elements_by_xpath('//div[@class="cell  three-twelfths  reviews-col columns4 lap-three-twelfths  palm-one-half"]/span[@class="reviews-stars  rating-value"]/span[@class="milli  rating-decimal"]/span[1]')
     recommendations = driver.find_elements_by_xpath('//img[@class="gauge-svg-image"]')
         # .get_attribute('alt')
+    
+    # the reviews themselves
+    
 
-    for ease in eases:
-        print(ease.text)
+    for support in supports:
+        print(support.text)
     print('-'*40)
-    for feature in features:
-        print(feature.text)
+    for value in values:
+        print(value.text)
 
-    print(len(eases), 'eases length')
-    print(len(features), 'features length')
+    print(len(supports), 'supports length')
+    print(len(values), 'values length')
 
     # make a dictionary that will eventually be outputted
     # reviews_dict = {}
