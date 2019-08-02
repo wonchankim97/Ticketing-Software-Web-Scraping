@@ -21,7 +21,7 @@ writer.writerow(['title', 'name', 'position', 'industry', 'usage', 'paid_status'
                 'overall', 'ease', 'feature', 'support', 'value', 'recommend', 'comment', 'pros',
                 'cons'])
 
-# loop through each url and scrape
+# loop through each url and scrape,
 for url in urls[23:24]:
     # do not render images
     chromeOptions = webdriver.ChromeOptions()
@@ -56,12 +56,9 @@ for url in urls[23:24]:
     dates = driver.find_elements_by_xpath('//div[@class="quarter-margin-bottom  micro  color-gray  weight-normal  text-right  palm-text-left"]')
 
     overalls = driver.find_elements_by_xpath('//span[@class="overall-rating"]/span')
-    
-    try:
-        eases = driver.find_elements_by_xpath('//div[@class="cell  three-tenths  reviews-col columns4  palm-one-half"]/div[@class="base-margin-bottom"][1]//span[@class="milli  rating-decimal"]/span[1]')
-    except:
-        continue
-    features = driver.find_elements_by_xpath('//div[@class="cell  three-tenths  reviews-col columns4  palm-one-half"]/div[@class="base-margin-bottom"][2]//span[@class="milli  rating-decimal"]/span[1]')
+    # these next four are annoying because some people do not do them and the class tags are same
+    eases = driver.find_elements_by_xpath('//span[@class="reviews-stars  rating-ease-of-use"]/span[@class="milli  rating-decimal"]/span[1]')
+    features = driver.find_elements_by_xpath('//span[@class="reviews-stars  rating-features"]/span[@class="milli  rating-decimal"]/span[1]')
     # currently does not support when only one specific feature rated
     # supports = driver.find_elements_by_xpath('//div[class="cell  three-twelfths  reviews-col columns4 lap-three-twelfths  palm-one-half"]/')
 
@@ -70,10 +67,12 @@ for url in urls[23:24]:
 
     for ease in eases:
         print(ease.text)
-    print(len(eases))
+    print('-'*40)
     for feature in features:
         print(feature.text)
-    print(len(features))
+
+    print(len(eases), 'eases length')
+    print(len(features), 'features length')
 
     # make a dictionary that will eventually be outputted
     # reviews_dict = {}
