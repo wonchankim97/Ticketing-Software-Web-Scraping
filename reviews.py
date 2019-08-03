@@ -36,7 +36,7 @@ def check_element(dict, driver):
 
 
 # loop through each url and scrape,
-for url in urls[0:1]:
+for url in urls:
     # do not render images
     chromeOptions = webdriver.ChromeOptions()
     prefs = {'profile.managed_default_content_settings.images':2}
@@ -56,8 +56,7 @@ for url in urls[0:1]:
             sleep(1.5)
             btn = driver.find_element_by_xpath('//a[@class="no-underline  show-more-reviews"]')
             btn.click()
-        except Exception as e:
-            print('Click Error: ', e)
+        except:
             break
     
     reviews = driver.find_elements_by_xpath('//div[@class="cell-review"]')
