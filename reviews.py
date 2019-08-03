@@ -31,7 +31,7 @@ def check_element(dict, driver):
     try:
         key = re.search('.+?(?=:)', driver.find_element_by_xpath('./strong').text).group(0).lower()
         dict[key] = driver.text
-    except Exception as e:
+    except:
         pass
 
 
@@ -85,7 +85,7 @@ for url in urls[0:1]:
         try:
             support = review.find_element_by_xpath('.//span[@class="reviews-stars  rating-customer-service"]/span[@class="milli  rating-decimal"]/span[1]').text
         except:
-            continue
+            pass
         value = review.find_element_by_xpath('.//div[@class="cell  three-twelfths  reviews-col columns4 lap-three-twelfths  palm-one-half"]/span[@class="reviews-stars  rating-value"]/span[@class="milli  rating-decimal"]/span[1]').text
         recommend = review.find_element_by_xpath('.//img[@class="gauge-svg-image"]').get_attribute('alt')
 
@@ -114,39 +114,6 @@ for url in urls[0:1]:
             # element_category = element.find_element_by_xpath('./b').text
             check_element(review_dict, element)
             # use regex to check the bold, then based off that key, input in the text to the value
-
-
-        # ###### only con is being printed atm
-        # def check_element(dict, driver):
-        #     element = re.search('.+?(?=:)', driver.find_element_by_xpath('./b').text).group(0)
-        #     if element == 'Comments': # store the value
-        #         dict['comment'] = driver.text
-        #     else: # store value as empty string
-        #         dict['comment'] = ""
-        #     if element == 'Pros': # store the value
-        #         dict['pros'] = driver.text
-        #     else: # store value as empty string
-        #         dict['pros'] = ""
-        #     if element == 'Cons': # store the value
-        #         dict['cons'] = driver.text
-        #     else: # store value as empty string
-        #         dict['cons'] = ""
-        #     if element == 'Overall': # store the value
-        #         dict['overall_review'] = driver.text
-        #     else: # store value as empty string
-        #         dict['overall_review'] = ""
-        #     if element == 'Recommendations to other buyers': # store the value
-        #         dict['rec_others'] = driver.text
-        #     else: # store value as empty string
-        #         dict['rec_others'] = ""
-        
-        # re.search(test.find_element_by_xpath('//b').text, 'Comments: ?')
-        # if test.find_element_by_xpath('./b') == 'Comments:' or test.find_element_by_xpath('./b') == 'Comments: ':
-        #     # use regex for the conditional above instead
-        #     comment = test.text
-        # comments = driver.find_elements_by_xpath('div[@class="review-comments  color-text"]/p[1]')
-        # pros = driver.find_elements_by_xpath('div[@class="review-comments  color-text"]/p[2]')
-        # cons = driver.find_elements_by_xpath('div[@class="review-comments  color-text"]/p[3]')
 
         writer.writerow(review_dict)
 
