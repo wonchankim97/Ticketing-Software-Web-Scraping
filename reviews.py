@@ -45,49 +45,84 @@ for url in urls[0:1]:
 
     # go on the specified url of the for loop
     driver.get(url)
-    # csv_file = open('reviews.csv', 'w', encoding='utf-8', newline='')
-    # writer = csv.writer(csv_file)
-
-    # writer.writerow(['title', 'text', 'username', 'date_published', 'rating'])
 
     # try to click on the load more button after scrolling all the way down continously until you cannot
-    # while True:
-    #     driver.execute_script("window.scrollTo(0,document.body.scrollHeight);")
-    #     try:
-    #         # wait_button = WebDriverWait(driver, 10)
-    #         # btn = wait_button.until(EC.element_to_be_clickable((By.XPATH, '//a[@class="no-underline  show-more-reviews"]')))
-    #         # btn.click()
-    #         sleep(1.5)
-    #         btn = driver.find_element_by_xpath('//a[@class="no-underline  show-more-reviews"]')
-    #         btn.click()
-    #     except Exception as e:
-    #         print('Click Error: ', e)
-    #         break
+    while True:
+        driver.execute_script("window.scrollTo(0,document.body.scrollHeight);")
+        try:
+            # wait_button = WebDriverWait(driver, 10)
+            # btn = wait_button.until(EC.element_to_be_clickable((By.XPATH, '//a[@class="no-underline  show-more-reviews"]')))
+            # btn.click()
+            sleep(1.5)
+            btn = driver.find_element_by_xpath('//a[@class="no-underline  show-more-reviews"]')
+            btn.click()
+        except Exception as e:
+            print('Click Error: ', e)
+            break
     
     reviews = driver.find_elements_by_xpath('//div[@class="cell-review"]')
-    for review in reviews[0:2]:
+    for review in reviews:
         # categories found by following paths
-        title = review.find_element_by_xpath('.//h3[@class="delta  weight-bold  half-margin-bottom"]/q').text
-        name = review.find_element_by_xpath('.//div[@class="epsilon  weight-bold  inline-block"]').text
-        position = review.find_element_by_xpath('.//div[@class="opacity-threequarters"]').text
-        industry = review.find_element_by_xpath('.//div[@class="italic  opacity-threequarters"]').text
-        usage = review.find_element_by_xpath('.//div[@class="reviewer-details"]/div[5]').text
-        paid_status = review.find_element_by_xpath('.//span[@class="help-tooltip text-left incentive"]').get_attribute('data-incentive-code')
-            #.get_attribute('data-incentive-code') when looping through
-        source = review.find_element_by_xpath('.//div[@class="reviewer-details"]/div[7]').text
-        date = review.find_element_by_xpath('.//div[@class="quarter-margin-bottom  micro  color-gray  weight-normal  text-right  palm-text-left"]').text
+        try:
+            title = review.find_element_by_xpath('.//h3[@class="delta  weight-bold  half-margin-bottom"]/q').text
+        except:
+            pass
+        try:
+            name = review.find_element_by_xpath('.//div[@class="epsilon  weight-bold  inline-block"]').text
+        except:
+            pass
+        try:
+            position = review.find_element_by_xpath('.//div[@class="opacity-threequarters"]').text
+        except:
+            pass
+        try:
+            industry = review.find_element_by_xpath('.//div[@class="italic  opacity-threequarters"]').text
+        except:
+            pass
+        try:
+            usage = review.find_element_by_xpath('.//div[@class="reviewer-details"]/div[5]').text
+        except:
+            pass
+        try:
+            paid_status = review.find_element_by_xpath('.//span[@class="help-tooltip text-left incentive"]').get_attribute('data-incentive-code')
+                #.get_attribute('data-incentive-code') when looping through
+        except:
+            pass
+        try:
+            source = review.find_element_by_xpath('.//div[@class="reviewer-details"]/div[7]').text
+        except:
+            pass
+        try:
+            date = review.find_element_by_xpath('.//div[@class="quarter-margin-bottom  micro  color-gray  weight-normal  text-right  palm-text-left"]').text
+        except:
+            pass
 
-        total = review.find_element_by_xpath('.//span[@class="overall-rating"]/span').text
-        # # these next four are annoying because some people do not do them and the class tags are same
-        # # jk, i just didn't look hard enough for the path whoohooo
-        ease = review.find_element_by_xpath('.//span[@class="reviews-stars  rating-ease-of-use"]/span[@class="milli  rating-decimal"]/span[1]').text
-        feature = review.find_element_by_xpath('.//span[@class="reviews-stars  rating-features"]/span[@class="milli  rating-decimal"]/span[1]').text
+        try:
+            total = review.find_element_by_xpath('.//span[@class="overall-rating"]/span').text
+        except:
+            pass
+            # these next four are annoying because some people do not do them and the class tags are same
+            # jk, i just didn't look hard enough for the path whoohooo
+        try:
+            ease = review.find_element_by_xpath('.//span[@class="reviews-stars  rating-ease-of-use"]/span[@class="milli  rating-decimal"]/span[1]').text
+        except:
+            pass
+        try:
+            feature = review.find_element_by_xpath('.//span[@class="reviews-stars  rating-features"]/span[@class="milli  rating-decimal"]/span[1]').text
+        except:
+            pass
         try:
             support = review.find_element_by_xpath('.//span[@class="reviews-stars  rating-customer-service"]/span[@class="milli  rating-decimal"]/span[1]').text
         except:
             pass
-        value = review.find_element_by_xpath('.//div[@class="cell  three-twelfths  reviews-col columns4 lap-three-twelfths  palm-one-half"]/span[@class="reviews-stars  rating-value"]/span[@class="milli  rating-decimal"]/span[1]').text
-        recommend = review.find_element_by_xpath('.//img[@class="gauge-svg-image"]').get_attribute('alt')
+        try:
+            value = review.find_element_by_xpath('.//div[@class="cell  three-twelfths  reviews-col columns4 lap-three-twelfths  palm-one-half"]/span[@class="reviews-stars  rating-value"]/span[@class="milli  rating-decimal"]/span[1]').text
+        except:
+            pass
+        try:
+            recommend = review.find_element_by_xpath('.//img[@class="gauge-wrapper"]').get_attribute('data-rating')
+        except:
+            pass
 
         # make a dictionary that will eventually be outputted
         review_dict = {}
