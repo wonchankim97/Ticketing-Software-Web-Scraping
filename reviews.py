@@ -61,7 +61,7 @@ for i in range(len(urls)):
             break
     
     reviews = driver.find_elements_by_xpath('//div[@class="cell-review"]')
-    for review in reviews[:2]:
+    for review in reviews:
         # categories found by following paths
         try:
             title = review.find_element_by_xpath('.//h3[@class="delta  weight-bold  half-margin-bottom"]/q').text
