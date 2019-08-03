@@ -14,13 +14,6 @@ with open('urls.csv', 'r') as f:
     for line in lines:
         urls.append(line)
 
-csv_file = open('reviews.csv', 'w', encoding='utf-8', newline='')
-writer = csv.DictWriter(csv_file, 
-                        fieldnames = ['title', 'name', 'position', 'industry', 'usage', 'paid_status', 'source', 'date','total', 'ease', 'feature', 'support', 'value', 'recommend', 'comments', 'pros',
-                            'cons', 'overall', 'recommendations to other buyers'])
-
-writer.writeheader()
-
 # function to differentiate the different review parts and mutate the review dict being passed
 def check_element(dict, driver):
     try:
@@ -36,15 +29,23 @@ def check_element(dict, driver):
 
 
 # loop through each url and scrape,
-for url in urls:
+for i in range(len(urls)):
     # do not render images
     chromeOptions = webdriver.ChromeOptions()
     prefs = {'profile.managed_default_content_settings.images':2}
     chromeOptions.add_experimental_option("prefs", prefs) 
     driver = webdriver.Chrome(chrome_options=chromeOptions)
 
+    # write a csv file for each of the companies
+    csv_file = open('reviews{0}.csv'.format(i), 'w', encoding='utf-8', newline='')
+    writer = csv.DictWriter(csv_file, 
+                            fieldnames = ['title', 'name', 'position', 'industry', 'usage', 'paid_status', 'source', 'date','total', 'ease', 'feature', 'support', 'value', 'recommend', 'comments', 'pros',
+                                'cons', 'overall', 'recommendations to other buyers'])
+
+    writer.writeheader()
+
     # go on the specified url of the for loop
-    driver.get(url)
+    driver.get(urls[i])
 
     # try to click on the load more button after scrolling all the way down continously until you cannot
     while True:
@@ -60,7 +61,7 @@ for url in urls:
             break
     
     reviews = driver.find_elements_by_xpath('//div[@class="cell-review"]')
-    for review in reviews:
+    for review in reviews[:2]:
         # categories found by following paths
         try:
             title = review.find_element_by_xpath('.//h3[@class="delta  weight-bold  half-margin-bottom"]/q').text
