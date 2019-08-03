@@ -24,7 +24,8 @@ writer = csv.writer(csv_file)
 
 companies = driver.find_elements_by_xpath('//div[@class="card  listing"]')
 for company in companies[:30]:
-    if(company.find_element_by_xpath('./a[@class="external-product-link "]').text != 'Eventzilla'):
+    name = company.find_element_by_xpath('.//h2[@class="listing-name"]/a').text
+    if(name != 'Eventzilla'):
         links = company.find_element_by_xpath('.//*/a[@class="reviews-count milli"]').get_attribute('href')
         writer.writerow([links])
 
