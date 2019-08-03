@@ -120,7 +120,7 @@ for url in urls[0:1]:
         except:
             pass
         try:
-            recommend = review.find_element_by_xpath('.//img[@class="gauge-wrapper"]').get_attribute('data-rating')
+            recommend = review.find_element_by_xpath('.//div[@class="gauge-wrapper"]').get_attribute('data-rating')
         except:
             pass
 
