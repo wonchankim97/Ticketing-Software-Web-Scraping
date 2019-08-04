@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
+import numpy as np
 import csv
 import re
 
@@ -39,8 +40,7 @@ for i in range(len(urls)):
     # write a csv file for each of the companies
     csv_file = open('reviews{0}.csv'.format(i), 'w', encoding='utf-8', newline='')
     writer = csv.DictWriter(csv_file, 
-                            fieldnames = ['title', 'name', 'position', 'industry', 'usage', 'paid_status', 'source', 'date','total', 'ease', 'feature', 'support', 'value', 'recommend', 'comments', 'pros',
-                                'cons', 'overall', 'recommendations to other buyers'])
+                            fieldnames = ['company', 'title', 'name', 'position', 'industry', 'usage', 'paid_status', 'source', 'date','total', 'ease', 'feature', 'support', 'value', 'recommend', 'comments', 'pros', 'cons', 'overall', 'recommendations to other buyers'])
 
     writer.writeheader()
 
@@ -60,72 +60,77 @@ for i in range(len(urls)):
         except:
             break
     
+
+    # make a dictionary that will eventually be outputted
+    review_dict = {}
+
+    # get the company name to input as first column
+    company = driver.find_element_by_xpath('.//h1[@class="beta  no-margin-bottom  weight-bold  color-blue"]').text.lower()
+    review_dict['company'] = company
+    # loop through the reviews
     reviews = driver.find_elements_by_xpath('//div[@class="cell-review"]')
     for review in reviews:
         # categories found by following paths
         try:
             title = review.find_element_by_xpath('.//h3[@class="delta  weight-bold  half-margin-bottom"]/q').text
         except:
-            pass
+            title = np.nan
         try:
             name = review.find_element_by_xpath('.//div[@class="epsilon  weight-bold  inline-block"]').text
         except:
-            pass
+            name = np.nan
         try:
             position = review.find_element_by_xpath('.//div[@class="opacity-threequarters"]').text
         except:
-            pass
+            position = np.nan
         try:
             industry = review.find_element_by_xpath('.//div[@class="italic  opacity-threequarters"]').text
         except:
-            pass
+            industry = np.nan
         try:
             usage = review.find_element_by_xpath('.//div[@class="reviewer-details"]/div[5]').text
         except:
-            pass
+            usage = np.nan
         try:
             paid_status = review.find_element_by_xpath('.//span[@class="help-tooltip text-left incentive"]').get_attribute('data-incentive-code')
                 #.get_attribute('data-incentive-code') when looping through
         except:
-            pass
+            paid_status = np.nan
         try:
             source = review.find_element_by_xpath('.//div[@class="reviewer-details"]/div[7]').text
         except:
-            pass
+            source = np.nan
         try:
             date = review.find_element_by_xpath('.//div[@class="quarter-margin-bottom  micro  color-gray  weight-normal  text-right  palm-text-left"]').text
         except:
-            pass
+            date = np.nan
 
         try:
             total = review.find_element_by_xpath('.//span[@class="overall-rating"]/span').text
         except:
-            pass
+            total = np.nan
             # these next four are annoying because some people do not do them and the class tags are same
             # jk, i just didn't look hard enough for the path whoohooo
         try:
             ease = review.find_element_by_xpath('.//span[@class="reviews-stars  rating-ease-of-use"]/span[@class="milli  rating-decimal"]/span[1]').text
         except:
-            pass
+            ease = np.nan
         try:
             feature = review.find_element_by_xpath('.//span[@class="reviews-stars  rating-features"]/span[@class="milli  rating-decimal"]/span[1]').text
         except:
-            pass
+            feature = np.nan
         try:
             support = review.find_element_by_xpath('.//span[@class="reviews-stars  rating-customer-service"]/span[@class="milli  rating-decimal"]/span[1]').text
         except:
-            pass
+            support = np.nan
         try:
             value = review.find_element_by_xpath('.//div[@class="cell  three-twelfths  reviews-col columns4 lap-three-twelfths  palm-one-half"]/span[@class="reviews-stars  rating-value"]/span[@class="milli  rating-decimal"]/span[1]').text
         except:
-            pass
+            value = np.nan
         try:
             recommend = review.find_element_by_xpath('.//div[@class="gauge-wrapper"]').get_attribute('data-rating')
         except:
-            pass
-
-        # make a dictionary that will eventually be outputted
-        review_dict = {}
+            recommend = np.nan
 
         review_dict['title'] = title
         review_dict['name'] = name

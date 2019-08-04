@@ -1,5 +1,6 @@
 from selenium import webdriver
 # from selenium.webdriver.common.by import By
+import re
 import csv
 
 chromeOptions = webdriver.ChromeOptions()
@@ -23,9 +24,11 @@ writer = csv.writer(csv_file)
 # next_button = wait_button.until(EC.element_to_be_clickable((By.XPATH,'//*[@id="product-114949"]/div/div[2]/div/div[1]/div/div/a[1]')))
 
 companies = driver.find_elements_by_xpath('//div[@class="card  listing"]')
-for company in companies[:30]:
+for company in companies:
     name = company.find_element_by_xpath('.//h2[@class="listing-name"]/a').text
-    if(name != 'Eventzilla'):
+    number = company.find_element_by_xpath('.//*/a[@class="reviews-count milli"]').text
+    number = re.search('\d+', number).group(0)
+    if((name != 'Eventzilla') & (name != 'TicketSpice') & (number != '0')):
         links = company.find_element_by_xpath('.//*/a[@class="reviews-count milli"]').get_attribute('href')
         writer.writerow([links])
 
