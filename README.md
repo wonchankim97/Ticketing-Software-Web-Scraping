@@ -1,7 +1,4 @@
-# Ticketing-Software-Web-Scraping
-Scraping ticketing software companies' reviews
-
-## Ticketing Softwares
+# Ticketing Software Web Scraping
 There are many different types of ticketing software that have sprung up in the past decade. However, with this project, after coming across the website capterra.com, I wanted to focus on ticketing softwares that dealt with merchants who had to find a platform in order to sell tickets to their events.
 These merchants pay the ticketing software company varying fees, such as a percentage of a ticket or a fixed deduction from each ticket sale. However, although these metrics can be used to try to deduce how a company should structure their business flow, I was more interested in the customer (merchants) reviews for each of the softwares.
 Therefore, I delved into each of the company's pages and thus scraped the reviews for all companies with greater than 5 reviews.
